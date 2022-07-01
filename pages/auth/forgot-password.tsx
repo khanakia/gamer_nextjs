@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Router from 'next/router'
-import ForgotPasswordForm from 'src/components/auth/ForgotPasswordForm/ForgotPasswordForm'
-import Layout from 'src/components/layout/LayoutAuth'
-import { PublicOnlyRoute } from 'src/contexts/auth'
+import ForgotPasswordForm from 'src/features/auth/components/ForgotPasswordForm'
+import Layout from 'src/features/app/components/layout/LayoutAuth'
+import { PublicOnlyRoute } from 'src/features/auth'
 
 const ForgotPassword = () => {
   const handleOnForgotPassword = () => {

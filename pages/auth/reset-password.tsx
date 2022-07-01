@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Router from 'next/router'
-import ResetPasswordForm from 'src/components/auth/ResetPasswordForm/ResetPasswordForm'
-import Layout from 'src/components/layout/LayoutAuth'
-import { PublicOnlyRoute } from 'src/contexts/auth'
+import ResetPasswordForm from 'src/features/auth/components/ResetPasswordForm'
+import Layout from 'src/features/app/components/layout/LayoutAuth'
+import { PublicOnlyRoute } from 'src/features/auth'
 
 const ResetPassword = () => {
   const handleOnResetPassword = () => {

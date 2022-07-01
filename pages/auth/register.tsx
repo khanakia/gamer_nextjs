@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Router from 'next/router'
-import Layout from 'src/components/layout/LayoutAuth'
-import RegisterForm from 'src/components/auth/RegisterForm/RegisterForm'
-import { PublicOnlyRoute } from 'src/contexts/auth'
+import Layout from 'src/features/app/components/layout/LayoutAuth'
+import RegisterForm from 'src/features/auth/components/RegisterForm'
+import { PublicOnlyRoute } from 'src/features/auth'
 
 const Register = () => {
   const handleOnRegister = () => {

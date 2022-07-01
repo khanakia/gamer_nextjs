@@ -2,11 +2,11 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Router, { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import LoginFormOtp from 'src/components/auth/LoginFormOtp/LoginWithOtp'
-import Layout from 'src/components/layout/LayoutAuth'
-import { PublicOnlyRoute } from 'src/contexts/auth'
-import { login } from "src/lib/auth/client";
-import isBlank from 'src/packages/string-fns/isBlank';
+import LoginFormOtp from 'src/features/auth/components/LoginFormOtp/LoginWithOtp'
+import Layout from 'src/features/app/components/layout/LayoutAuth'
+import { PublicOnlyRoute } from 'src/features/auth'
+import { login } from "src/features/auth/utils/client";
+import isBlank from 'packages/string-fns/isBlank';
 const Login = () => {
   const router = useRouter()
   const {token=""} = router.query

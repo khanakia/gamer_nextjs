@@ -1,0 +1,146 @@
+import Link from "next/link";
+import { Table, Divider } from "antd";
+import { get } from "@muft/dot";
+import { AntDateColumnRender, AntStatusColumnRender, } from "src/features/bite/components";
+import { useAntdPagination, antdBuildPageObject, useAntdColSearchInput, antdBuildFiltersRequest, } from "src/features/bite";
+import { useUserRole, TUserRole, } from "src/features/auth";
+import { useQueryMkSessionEntries } from "src/features/app";
+import { listPageLink, titleSingular, titlePlural } from "./constant"
+
+function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
+  let columns = [
+    {
+      title: "Channel",
+      dataIndex: "channelName",
+      key: "channelName",
+      sorter: true,
+    },
+
+    {
+      title: "SessionID",
+      dataIndex: "sessionId",
+      key: "sessionId",
+      sorter: true,
+    },
+
+    {
+      title: "Session",
+      dataIndex: "sessionName",
+      key: "sessionName",
+      sorter: true,
+    },
+
+    {
+      title: "User Phone",
+      dataIndex: "userPhone",
+      key: "userPhone",
+      sorter: true,
+    },
+
+    {
+      title: "NumType",
+      dataIndex: "numTypeName",
+      key: "numTypeName",
+      sorter: true,
+    },
+
+    {
+      title: "Num",
+      dataIndex: "num",
+      key: "num"
+    },
+
+    {
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount"
+    },
+
+    {
+      title: "Rate",
+      dataIndex: "rate",
+      key: "rate"
+    },
+
+    {
+      title: "Bet Comm.",
+      dataIndex: "betComm",
+      key: "betComm"
+    },
+
+    {
+      title: "Win Amount",
+      dataIndex: "winAmt",
+      key: "winAmt"
+    },
+
+    {
+      title: "Bet Comm. Amt.",
+      dataIndex: "betCommAmt",
+      key: "betCommAmt"
+    },
+
+    {
+      title: "Agent Patti",
+      dataIndex: "agentPatti",
+      key: "agentPatti"
+    },
+
+    {
+      title: "Admin Patti",
+      dataIndex: "adminPatti",
+      key: "adminPatti"
+    },
+
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      ...getColumnSearchProps("id"),
+      // width: 250,
+    },
+
+  ];
+
+  return columns;
+}
+
+export default function List() {
+  // const { user } = useAuth()
+  const userRole = useUserRole();
+  // console.log(userRole)
+
+  const { getColumnSearchProps } = useAntdColSearchInput();
+  const columns = GetColumns(getColumnSearchProps, userRole);
+
+  const { handleTableChange, getPageInfo } = useAntdPagination();
+  const pageinfo = getPageInfo();
+
+  const filters = antdBuildFiltersRequest(pageinfo.filters, columns);
+
+  const { data, isFetching } = useQueryMkSessionEntries({
+    limit: pageinfo.limit,
+    offset: pageinfo.offset,
+    orderBy: pageinfo.orderBy,
+    filters: filters,
+  });
+  const items = get(data, "nodes");
+  const total = get(data, "total", 0);
+  const pagination = antdBuildPageObject(pageinfo, total);
+
+  return (
+    <>
+      <Table
+        className='ktable'
+        dataSource={items}
+        columns={columns}
+        scroll={{ x: "100%" }}
+        size={"small"}
+        rowKey='id'
+        loading={isFetching}
+        pagination={pagination}
+        onChange={handleTableChange}
+      />
+    </>
+  );
+}
