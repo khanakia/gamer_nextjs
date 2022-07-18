@@ -5,4 +5,5 @@ export { default as HideWrap } from './atoms/HideWrap';
 export { default as HelpMarkup } from './atoms/HelpMarkup';
 export { default as HtmlMarkup } from './atoms/HtmlMarkup';
 export { default as AntSelectK } from './antd/SelectK';
-export { AntStatusColumnRender, AntDateColumnRender } from './atoms/AntdShared';
+export { default as NextAnchor } from './next/Anchor';
+export { AntStatusColumnRender, AntDateColumnRender, AntDateTimeColumnRender } from './atoms/AntdShared';

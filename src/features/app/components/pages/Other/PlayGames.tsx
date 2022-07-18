@@ -5,7 +5,7 @@ export default function Playgames() {
     <>
 			<div className="row">
         <div className="col-md-4">
-            <Link href={"/gm/mk/"}>
+            <Link href={"/member/mk/sessions"}>
               <a>
                 <img src="https://filmdaily.co/wp-content/uploads/2021/11/Satta-lede-1300x691.jpeg" />
               </a>

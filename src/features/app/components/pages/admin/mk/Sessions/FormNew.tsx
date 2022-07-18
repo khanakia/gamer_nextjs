@@ -7,6 +7,7 @@ import styleAnt from "styles/Ant.module.scss";
 import { mutation_mk_adm_sessionCreate, mutation_mk_adm_sessionUpdate} from "src/features/app";
 import { useUserRole } from "src/features/auth";
 import MkFieldChannel from "src/features/app/components/shared/MkFieldChannel";
+import {  SessionStatus_UnDeclared } from "src/features/app/constant"
 
 type FormProps = {
   id?: string;
@@ -143,16 +144,19 @@ export default function Form1(props: FormProps) {
           </Select>
         </Form.Item> */}
 
-        <Form.Item wrapperCol={{ offset: 0, span: 24 }} className='submitBtnRow'>
-          <button type='button' onClick={() => submitForm()} className='me-3 btn btn-main '>
-            Save
-          </button>
-          <ShowWrap show={!!id}>
-            <button className='me-3 btn btn-main ' type='submit'>
-              Save & Continue
+        <ShowWrap show={id as any && data?.statusId==SessionStatus_UnDeclared}>
+          <Form.Item wrapperCol={{ offset: 0, span: 24 }} className='submitBtnRow'>
+            <button type='button' onClick={() => submitForm()} className='me-3 btn btn-main '>
+              Save
             </button>
-          </ShowWrap>
-        </Form.Item>
+            <ShowWrap show={!!id}>
+              <button className='me-3 btn btn-main ' type='submit'>
+                Save & Continue
+              </button>
+            </ShowWrap>
+          </Form.Item>
+        </ShowWrap>
+
       </Form>
     </>
   );

@@ -15,7 +15,7 @@ const Register = () => {
       <title>{process.env.NEXT_PUBLIC_APP_NAME} - Register</title>
       </Head>
       <div className="container1">
-        <RegisterForm onRegister={handleOnRegister} />
+        {/* <RegisterForm onRegister={handleOnRegister} /> */}
       </div>
     </Layout>
   )

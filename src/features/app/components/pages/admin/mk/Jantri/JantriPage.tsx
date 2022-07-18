@@ -29,7 +29,7 @@ export default function Jantry() {
     <>
       {isLoading ? <SimpleLoader overlay={true} /> : null}
       <FilterForm onSubmit={handleSubmitForm} />
-      <JantriTable items={data} />
+      <JantriTable items={data} fieldTotalBet="adminTotalBet" />
     </>
   );
 }

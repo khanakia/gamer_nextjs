@@ -1,4 +1,5 @@
 import React from "react";
+import moment from 'moment';
 // import { formatMoneyWithSymbol } from "@kookjs-client/util";
 import { faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from 'src/lib/react-fontawesome'
@@ -23,6 +24,17 @@ export const AntDateColumnRender = (value:any, record: any) => {
 	return (
 		<span>
 			{dateString}
+		</span>
+	)
+}
+
+export const AntDateTimeColumnRender = (value: any) => {
+	// if(moment(value).year() < 1990) return
+	const date = moment(value)
+	if(!date.isValid()  || date.year() < 1900) return
+	return (
+		<span>
+			{date.format('lll')}
 		</span>
 	)
 }

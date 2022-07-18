@@ -15,7 +15,7 @@ const ResetPassword = () => {
       <title>{process.env.NEXT_PUBLIC_APP_NAME} - Reset Password</title>
       </Head>
       <div className="container1">
-        <ResetPasswordForm onResetPassword={handleOnResetPassword} />
+        {/* <ResetPasswordForm onResetPassword={handleOnResetPassword} /> */}
       </div>
     </Layout>
   )

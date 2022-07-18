@@ -14,6 +14,7 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
       dataIndex: "channelName",
       key: "channelName",
       sorter: true,
+      ...getColumnSearchProps("channelName"),
     },
 
     {
@@ -21,13 +22,15 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
       dataIndex: "sessionId",
       key: "sessionId",
       sorter: true,
+      ...getColumnSearchProps("sessionId"),
     },
 
     {
-      title: "Session",
+      title: "Session Name",
       dataIndex: "sessionName",
       key: "sessionName",
       sorter: true,
+      ...getColumnSearchProps("sessionName"),
     },
 
     {
@@ -35,6 +38,8 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
       dataIndex: "userPhone",
       key: "userPhone",
       sorter: true,
+      ...getColumnSearchProps("userPhone"),
+      
     },
 
     {
@@ -42,56 +47,59 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
       dataIndex: "numTypeName",
       key: "numTypeName",
       sorter: true,
+      ...getColumnSearchProps("numTypeName"),
     },
 
     {
       title: "Num",
       dataIndex: "num",
-      key: "num"
+      key: "num",
+      ...getColumnSearchProps("num"),
     },
 
     {
       title: "Amount",
-      dataIndex: "amount",
-      key: "amount"
+      dataIndex: "adminAmount",
+      key: "adminAmount"
     },
 
     {
       title: "Rate",
-      dataIndex: "rate",
-      key: "rate"
+      dataIndex: "adminRate",
+      key: "adminRate"
     },
 
     {
       title: "Bet Comm.",
-      dataIndex: "betComm",
-      key: "betComm"
+      dataIndex: "adminBetComm",
+      key: "adminBetComm"
     },
 
     {
       title: "Win Amount",
-      dataIndex: "winAmt",
-      key: "winAmt"
+      dataIndex: "adminWinAmt",
+      key: "adminWinAmt"
     },
 
     {
       title: "Bet Comm. Amt.",
-      dataIndex: "betCommAmt",
-      key: "betCommAmt"
+      dataIndex: "adminBetCommAmt",
+      key: "adminBetCommAmt"
     },
 
-    {
-      title: "Agent Patti",
-      dataIndex: "agentPatti",
-      key: "agentPatti"
-    },
+    // {
+    //   title: "Agent Patti",
+    //   dataIndex: "agentPatti",
+    //   key: "agentPatti"
+    // },
 
-    {
-      title: "Admin Patti",
-      dataIndex: "adminPatti",
-      key: "adminPatti"
-    },
+    // {
+    //   title: "Admin Patti",
+    //   dataIndex: "adminPatti",
+    //   key: "adminPatti"
+    // },
 
+   
     {
       title: "ID",
       dataIndex: "id",
@@ -131,7 +139,7 @@ export default function List() {
   return (
     <>
       <Table
-        className='ktable'
+        className="ktable ws-nowrap"
         dataSource={items}
         columns={columns}
         scroll={{ x: "100%" }}

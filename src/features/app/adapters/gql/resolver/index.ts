@@ -4,24 +4,49 @@ import { TDataGrid } from "src/features/bite";
 import isBlank from "packages/string-fns/isBlank"
 
 import {
+  query_me,
   query_p_user,
   query_p_paymentMethods,
   query_p_paymentMethod,
   query_p_paymentRequests,
   query_p_paymentRequest,
-  query_p_ledgers,
+  query_p_paymentRequestByChild,
   query_p_paymentRequestsByChilds,
+  query_p_ledgers,
+  query_p_ledgerBalanceByChilds,
   query_p_legerBalance,
   query_mk_adm_channels,
   query_mk_adm_channel,
   query_mk_p_sessions,
   query_mk_p_session,
   query_mk_p_sessionEntries,
+  query_mk_agent_totalBetForEachChild,
+  query_mk_adm_totalBetForEachChild,
   query_mk_p_jantri,
   query_mk_adm_jantri,
   query_mk_agent_jantri,
   query_pub_company,
 } from "../schema";
+
+export function userQueryMe() {
+  return useQuery(
+    ["me"],
+    async (ctx) => {
+      const { me: data } = await getGqlClient().request(
+        query_me
+      );
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      refetchOnReconnect: false,
+      retry: false,
+      // staleTime: 10000,
+      keepPreviousData: true,
+    }
+  );
+}
 
 export function useQueryUser(vars: { id: string }) {
   const enabled = isBlank(vars.id) ? false : true;
@@ -109,6 +134,27 @@ export function useQueryLedgers(vars?: TDataGrid) {
   );
 }
 
+export function useQueryLedgerBalanceByChilds(vars?: TDataGrid) {
+  return useQuery(
+    ["ledgerBalanceByChilds", vars],
+    async (ctx) => {
+      const { p_ledgerBalanceByChilds: data } = await getGqlClient().request(
+        query_p_ledgerBalanceByChilds,
+        vars
+      );
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      refetchOnReconnect: false,
+      retry: false,
+      // staleTime: 10000,
+      keepPreviousData: true,
+    }
+  );
+}
+
 export function useQueryLedgerBalance() {
   return useQuery(
     ["ledgerBalance"],
@@ -158,6 +204,28 @@ export function useQueryPaymentRequest(vars: { id: string }) {
     async (ctx) => {
       const { p_paymentRequest: data } = await getGqlClient().request(
         query_p_paymentRequest,
+        vars
+      );
+      return data;
+    },
+    {
+      enabled: enabled,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      refetchOnReconnect: false,
+      retry: false,
+    }
+  );
+}
+
+export function useQueryPaymentRequestByChild(vars: { id: string }) {
+  const enabled = isBlank(vars.id) ? false : true;
+
+  return useQuery(
+    ["paymentRequestByChild", vars],
+    async (ctx) => {
+      const { p_paymentRequestByChild: data } = await getGqlClient().request(
+        query_p_paymentRequestByChild,
         vars
       );
       return data;
@@ -286,6 +354,48 @@ export function useQueryMkSessionEntries(vars?: TDataGrid) {
     async (ctx) => {
       const { mk_p_sessionEntries: data } = await getGqlClient().request(
         query_mk_p_sessionEntries,
+        vars
+      );
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      refetchOnReconnect: false,
+      retry: false,
+      // staleTime: 10000,
+      keepPreviousData: true,
+    }
+  );
+}
+
+export function useQueryMkAgentTotalBetForEachChild(vars?: TDataGrid) {
+  return useQuery(
+    ["mkSessionEntries", vars],
+    async (ctx) => {
+      const { mk_agent_totalBetForEachChild: data } = await getGqlClient().request(
+        query_mk_agent_totalBetForEachChild,
+        vars
+      );
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      refetchOnReconnect: false,
+      retry: false,
+      // staleTime: 10000,
+      keepPreviousData: true,
+    }
+  );
+}
+
+export function useQueryMkAdmTotalBetForEachChild(vars?: TDataGrid) {
+  return useQuery(
+    ["mkSessionEntries", vars],
+    async (ctx) => {
+      const { mk_adm_totalBetForEachChild: data } = await getGqlClient().request(
+        query_mk_adm_totalBetForEachChild,
         vars
       );
       return data;

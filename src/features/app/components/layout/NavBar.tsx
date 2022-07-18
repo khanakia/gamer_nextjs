@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faPlus, faUser, faSignOut, faQuestionCircle, faRocket } from "@fortawesome/free-solid-svg-icons";
-import { logout, isLoggedIn, getUserID, getUserEmail, getTokenDecoded } from "src/features/auth/utils/client";
 import { useLoggedIn, useAuth } from "src/features/auth";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Navbar, Nav } from "react-bootstrap";
@@ -12,6 +11,7 @@ import { Navbar, Nav } from "react-bootstrap";
 export const GearComp = () => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const { logout, isAuthenticated, user } = useAuth()
 
   function handleLogOut(e: any) {
     e.preventDefault();
@@ -21,16 +21,8 @@ export const GearComp = () => {
   }
 
   useEffect(() => {
-    setMounted(isLoggedIn());
+    setMounted(isAuthenticated);
   }, []);
-
-  const { user } = useAuth()
-
-  // console.log(user)
-
-  // const email = getUserEmail();
-
-  // const user = getTokenDecoded()
 
   return mounted ? (
     <Dropdown>
@@ -39,6 +31,12 @@ export const GearComp = () => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu align='end'>
+        <Link href={'/me'}>
+          <a className='dropdown-item' href='#' >
+            <FontAwesomeIcon icon={faUser} className='me-2' />
+            Profile
+          </a>
+        </Link>
         <a className='dropdown-item' href='#' onClick={handleLogOut}>
           <FontAwesomeIcon icon={faSignOut} className='me-2' />
           Sign Out

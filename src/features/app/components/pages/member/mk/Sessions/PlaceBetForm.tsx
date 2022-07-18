@@ -14,12 +14,11 @@ type FormProps = {
 
 export default function PlaceBetForm(props: FormProps) {
   const {  onSubmit } = props;
-
   const [form] = Form.useForm();
   const [saveRedirect, setSaveRedirect] = useState(false);
   const spinner = useSpinner();
   // const { user } = useAuth()
-  const userRole = useUserRole();
+  // const userRole = useUserRole();
   const router = useRouter()
   const { id } = router.query
 
@@ -64,8 +63,6 @@ export default function PlaceBetForm(props: FormProps) {
       });
   };
 
-
-
   return (
     <>
       <Form
@@ -94,8 +91,18 @@ export default function PlaceBetForm(props: FormProps) {
           </Select>
         </Form.Item>
 
-        <Form.Item label='Number' name='num' rules={[{ required: true, message: "Field required." }]}>
-          <InputNumber />
+        <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.numTypeId !== currentValues.numTypeId}>
+          {({ getFieldValue }) => {
+            const numTypeId = getFieldValue("numTypeId");
+            const max = numTypeId == "j" ? 99 : 9
+            return (
+              <>
+              <Form.Item label='Number' name='num' rules={[{ required: true, message: "Field required." }]} extra={`Enter number between 0 and ${max}`}>
+                <InputNumber min={0} max={max} />
+              </Form.Item>
+              </>
+            )
+          }}
         </Form.Item>
 
         <Form.Item label='Amount' name='amount' rules={[{ required: true, message: "Field required." }]}>

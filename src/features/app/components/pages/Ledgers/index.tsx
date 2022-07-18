@@ -36,6 +36,7 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
       title: "Game",
       dataIndex: "gameName",
       key: "gameName",
+      ...getColumnSearchProps("gameName"),
     },
 
   
@@ -51,42 +52,49 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
           title: "Ref",
           dataIndex: "ref",
           key: "ref",
+          ...getColumnSearchProps("ref"),
         },
     
         {
           title: "RefID",
           dataIndex: "refId",
           key: "refId",
+          ...getColumnSearchProps("refId"),
         },
     
         {
           title: "Ref2",
           dataIndex: "ref2",
           key: "ref2",
+          ...getColumnSearchProps("ref2"),
         },
     
         {
           title: "Ref2ID",
           dataIndex: "ref2Id",
           key: "ref2Id",
+          ...getColumnSearchProps("ref2Id"),
         },
     
         {
           title: "Ref3",
           dataIndex: "ref3",
           key: "ref3",
+          ...getColumnSearchProps("ref3"),
         },
     
         {
           title: "Ref3ID",
           dataIndex: "ref3Id",
           key: "ref3Id",
+          ...getColumnSearchProps("ref3Id"),
         },
 
         {
           title: "Id",
           dataIndex: "id",
           key: "id",
+          ...getColumnSearchProps("id"),
         },
         {
           title: "Internal Note",

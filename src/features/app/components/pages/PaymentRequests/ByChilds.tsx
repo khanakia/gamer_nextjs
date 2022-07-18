@@ -4,19 +4,21 @@ import { get } from "@muft/dot";
 import { AntDateColumnRender } from "src/features/bite/components";
 import { useAntdPagination, antdBuildPageObject, useAntdColSearchInput, antdBuildFiltersRequest, } from "src/features/bite";
 import { useQueryPaymentRequestsByChilds } from "src/features/app";
+import {  PaymentProcess_Status_Pending } from "./constant"
 
 function GetColumns(getColumnSearchProps: any) {
   const columns = [
     {
-      title: "",
+      title: "Action",
       key: "action",
       render: (text: any, record: any) => {
         // hide edit button if user is member admin cannot create or edit members
         // if(userRole.isAdmin && record?.roleId == Role_Member ) return null
+        if(record?.statusId !== PaymentProcess_Status_Pending) return null
         return (
           <span>
             <Link href={`/payment_requests/${record.id}/process`}>
-              <a>Process</a>
+              <a href="#">Process</a>
             </Link>
           </span>
         );

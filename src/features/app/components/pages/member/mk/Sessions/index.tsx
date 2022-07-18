@@ -1,8 +1,10 @@
 import Link from "next/link";
+import moment from "moment";
 import { get } from "@muft/dot";
+import { ShowWrap, useSpinner } from "src/features/bite/components";
 import { useUserRole, TUserRole, } from "src/features/auth";
 import { useQueryMkSessions } from "src/features/app";
-import moment from "moment";
+import { SessionStatus_UnDeclared } from "src/features/app/constant"
 
 export default function List() {
   // const { user } = useAuth()
@@ -27,13 +29,15 @@ export default function List() {
         return (
           <div key={i} className="card col-md-3">
             <div className="card-body">
-              <h5 className="card-title">{item.name}</h5>
+              <h5 className="card-title">{item.channelName} - {item.name}</h5>
               <div><strong>Start Time:</strong> {startTime}</div>
               <div><strong>End Time:</strong> {endTime}</div>
 
-              <Link href={`/member/mk/sessions/${item.id}/place_bet`}>
-                <a className="btn btn-dark w-100 mb-2 mt-3">Place Bet</a>
-              </Link>
+              <ShowWrap show={item?.statusId == SessionStatus_UnDeclared}>
+                <Link href={`/member/mk/sessions/${item.id}/place_bet`}>
+                  <a className="btn btn-dark w-100 mb-2 mt-3">Place Bet</a>
+                </Link>
+              </ShowWrap>
 
               <Link href={`/member/mk/sessions/${item.id}/jantri`}>
                 <a className="btn btn-dark w-100">View Jantri</a>

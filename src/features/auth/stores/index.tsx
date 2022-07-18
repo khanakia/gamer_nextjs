@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import Router, { useRouter } from 'next/router'
 import { isLoggedIn, getTokenName, getTokenDecoded } from '../utils/client'
-
+import { Role_Agent, Role_Member, Role_Admin } from "src/features/app/domain"
 type User = {
   id: string
   sub: string
@@ -64,12 +64,17 @@ export const AuthProvider = ({ children } : any) => {
 
 export const useAuth = () => useContext(AuthContext)
 
+type ProtectRouteProps = {
+  bypass?: boolean, 
+  allowOnlyRoles?:string[], 
+  children: (React.ReactElement|null) 
+}
 /* 
   bypass - We had the event single page which can be private and public both so we created a new
   param bypass which equals to `isPublic` so if bypass is true then we do not need to authenticate
 */
-export const ProtectRoute = ({ bypass,  children }: {bypass?: boolean, children: (React.ReactElement|null) }) => {
-  const { isAuthenticated, loading } = useAuth();
+export const ProtectRoute = ({ bypass,  children, allowOnlyRoles=[] }: ProtectRouteProps) => {
+  const { isAuthenticated, loading, user } = useAuth();
   const router = useRouter()
   // If loading or not window that code is executing server side
   if(typeof window == 'undefined' || loading) return null
@@ -83,7 +88,37 @@ export const ProtectRoute = ({ bypass,  children }: {bypass?: boolean, children:
     return null
   }
 
+  if(allowOnlyRoles.length>0 && allowOnlyRoles.indexOf(user?.role as any) == -1 ) {
+    router.push(`/`)
+    return null
+  }
+
   return children;
+};
+
+// Agent and Member cannot access admin routes if they tries then redirect to /
+export const ProtectRouteAdmin = (props: ProtectRouteProps) => {
+  let newprops = {...props}
+  newprops.allowOnlyRoles = [...newprops.allowOnlyRoles||[], ...[Role_Admin] ]
+  return <ProtectRoute {...newprops}  />;
+};
+
+export const ProtectRouteAgent = (props: ProtectRouteProps) => {
+  let newprops = {...props}
+  newprops.allowOnlyRoles = [...newprops.allowOnlyRoles||[], ...[Role_Agent] ]
+  return <ProtectRoute {...newprops}  />;
+};
+
+export const ProtectRouteMember = (props: ProtectRouteProps) => {
+  let newprops = {...props}
+  newprops.allowOnlyRoles = [...newprops.allowOnlyRoles||[], ...[Role_Member] ]
+  return <ProtectRoute {...newprops}  />;
+};
+
+export const ProtectRouteAdminAndAgent = (props: ProtectRouteProps) => {
+  let newprops = {...props}
+  newprops.allowOnlyRoles = [...newprops.allowOnlyRoles||[], ...[Role_Admin, Role_Agent] ]
+  return <ProtectRoute {...newprops}  />;
 };
 
 export const PublicOnlyRoute = ({ children }: any) => {

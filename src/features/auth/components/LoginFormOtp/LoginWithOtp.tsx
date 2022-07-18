@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import qs from "query-string";
+import Router, { useRouter } from 'next/router'
 import classNames from "classnames";
 import gqlErrorFirstMessage from "packages/string-fns/gqlErrorFirstMessage";
 import { ErrorLabel } from "src/features/bite/components";
@@ -10,12 +11,14 @@ import { mutate_authLoginSendOtp, mutate_authLoginVerifyOtp } from "./query"
 import { message } from "antd";
 import { useSpinner } from 'src/features/bite/components'
 import objGetPath from "packages/string-fns/objGetPath";
-import { login } from "src/features/auth/utils/client";
+import { useAuth } from "src/features/auth";
 
 export default function LoginWithOtp(props : {onSubmit?: Function}) {
   const { onSubmit } = props
-
+	const { login } = useAuth()
   // const loadingEl = useRef<LoadingElement>();
+	const router = useRouter()
+	// console.log(router.query)
 
 	const [step, setStep] = useState(1);
 	const [phone, setPhone] = useState(null);
@@ -40,7 +43,9 @@ export default function LoginWithOtp(props : {onSubmit?: Function}) {
 		.request(mutate_authLoginSendOtp, {
 			input: {
 				phone: phone,
-				companyId: process.env.NEXT_PUBLIC_DEFAULT_COMPANY_ID
+				companyId: process.env.NEXT_PUBLIC_DEFAULT_COMPANY_ID,
+				resend,
+				referralId: router.query?.refid
 			},
 		})
 		.then((res) => {
@@ -76,9 +81,9 @@ export default function LoginWithOtp(props : {onSubmit?: Function}) {
 			},
 		})
 		.then((res) => {
-			console.log(res);
+			// console.log(res);
 		  const token = objGetPath(res, 'authLoginVerifyOtp.token')
-			console.log(token);
+			// console.log(token);
 			if (!token) {
 				message.error("Cannot login.");
 				return
@@ -194,7 +199,7 @@ const OtpAutenticateForm = (props: {
 	return (
 		<form onSubmit={handleSubmit(onSubmit_)} className={cssClassNames}>
 			<div className="inner">
-				<h3>Enter OTP</h3>
+				<h3>Enter OTP or Login PIN</h3>
 				<div>
 					We’ve sent an OTP on {phone}
 					<button type="button" className="btn btn-link trackClick" onClick={onPhoneChangeClick}
@@ -210,11 +215,12 @@ const OtpAutenticateForm = (props: {
 						type="text"
 						// name="otp"
 						className="form-control"
-						placeholder="Enter OTP"
+						placeholder="Enter OTP or Login PIN"
 						{...register("otp", { required: true, minLength: 6, maxLength: 6 })}
             maxLength={6}
 						pattern="[0-9]*"
 					/>
+					<div className="note">If you do not recieve the OTP then use the Login PIN provided by your parent.</div>
 					<ErrorLabel field={errors.otp} />
 				</div>
         <div className="text-end mb-3">

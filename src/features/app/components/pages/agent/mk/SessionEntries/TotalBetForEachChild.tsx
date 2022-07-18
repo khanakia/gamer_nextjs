@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Table, Divider } from "antd";
 import { get } from "@muft/dot";
-import { AntDateColumnRender, AntStatusColumnRender, } from "src/features/bite/components";
+import { AntDateTimeColumnRender, AntStatusColumnRender } from "src/features/bite/components";
 import { useAntdPagination, antdBuildPageObject, useAntdColSearchInput, antdBuildFiltersRequest, } from "src/features/bite";
 import { useUserRole, TUserRole, } from "src/features/auth";
-import { useQueryMkSessionEntries } from "src/features/app";
+import { useQueryMkAgentTotalBetForEachChild } from "src/features/app";
 import { listPageLink, titleSingular, titlePlural } from "./constant"
 
 function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
@@ -34,6 +34,15 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
     },
 
     {
+      title: "Start Time",
+      dataIndex: "startTime",
+      key: "startTime",
+      render: AntDateTimeColumnRender,
+      sorter: true,
+      width: 120,
+    },
+
+    {
       title: "User Phone",
       dataIndex: "userPhone",
       key: "userPhone",
@@ -41,71 +50,13 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
       ...getColumnSearchProps("userPhone"),
     },
 
-    {
-      title: "NumType",
-      dataIndex: "numTypeName",
-      key: "numTypeName",
-      sorter: true,
-      ...getColumnSearchProps("numTypeName"),
-    },
+   
 
     {
-      title: "Num",
-      dataIndex: "num",
-      key: "num",
-      ...getColumnSearchProps("num"),
+      title: "Total Bet",
+      dataIndex: "totalBet",
+      key: "totalBet"
     },
-
-    {
-      title: "Amount",
-      dataIndex: "amount",
-      key: "amount"
-    },
-
-    {
-      title: "Rate",
-      dataIndex: "rate",
-      key: "rate"
-    },
-
-    {
-      title: "Bet Comm.",
-      dataIndex: "betComm",
-      key: "betComm"
-    },
-
-    {
-      title: "Win Amount",
-      dataIndex: "winAmt",
-      key: "winAmt"
-    },
-
-    {
-      title: "Bet Comm. Amt.",
-      dataIndex: "betCommAmt",
-      key: "betCommAmt"
-    },
-
-    {
-      title: "Agent Patti",
-      dataIndex: "agentPatti",
-      key: "agentPatti"
-    },
-
-    {
-      title: "Admin Patti",
-      dataIndex: "adminPatti",
-      key: "adminPatti"
-    },
-
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      ...getColumnSearchProps("id"),
-      // width: 250,
-    },
-
   ];
 
   return columns;
@@ -124,7 +75,7 @@ export default function List() {
 
   const filters = antdBuildFiltersRequest(pageinfo.filters, columns);
 
-  const { data, isFetching } = useQueryMkSessionEntries({
+  const { data, isFetching } = useQueryMkAgentTotalBetForEachChild({
     limit: pageinfo.limit,
     offset: pageinfo.offset,
     orderBy: pageinfo.orderBy,
@@ -137,7 +88,7 @@ export default function List() {
   return (
     <>
       <Table
-        className='ktable'
+        className='ktable ws-nowrap'
         dataSource={items}
         columns={columns}
         scroll={{ x: "100%" }}

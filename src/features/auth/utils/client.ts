@@ -17,10 +17,10 @@ export function getToken(): string | undefined {
 	return Cookies.get(getTokenName());
 }
 
-export function login(token = null) {
-	if (!token) return 'Cannot Login';
-	Cookies.set(getTokenName(), token);
-}
+// export function login(token = null) {
+// 	if (!token) return 'Cannot Login';
+// 	Cookies.set(getTokenName(), token);
+// }
 
 export function getTokenDecoded(): any {
 	var token = getToken();
@@ -45,14 +45,15 @@ export function getTokenExpirationDate() {
 	return new Date(decoded.exp * 1000);
 }
 
+// do not call this function anywhere that is supposed to use only in useAuth hook.
 export function isLoggedIn(): boolean {
 	if (getToken() && !isTokenExpired()) return true;
 	return false;
 }
 
-export function logout() {
-	Cookies.remove(getTokenName());
-}
+// export function logout() {
+// 	Cookies.remove(getTokenName());
+// }
 
 export function getUserID() {
 	const data = getTokenDecoded();

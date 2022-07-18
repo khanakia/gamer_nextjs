@@ -9,6 +9,12 @@ export const query_p_users = gql`
         phone
         name
         status
+        minBet
+        maxBet
+        rate
+        betComm
+        refComm
+        patti
         parentId
         roleId
         referralId

@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { Menu, Layout } from "antd";
 import React from "react";
 import { useUserRole } from "src/features/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe, faBars } from "@fortawesome/free-solid-svg-icons";
+import { NextAnchor } from "src/features/bite/components"
 
 const menuItems: any = [
   {
@@ -34,9 +36,9 @@ const menuItems: any = [
   },
 
   {
-    key: "user_ledgers",
-    href: "/ledgers_user",
-    label: "User Ledgers",
+    key: "user_balances",
+    href: "/ledgers/ledger_balance_by_childs",
+    label: "User Balances",
     icon: <FontAwesomeIcon icon={faBars} />,
     // activePaths: ["/ledgers"],
     roles: ['admin', 'agent']
@@ -88,6 +90,12 @@ const menuItems: any = [
         href: "/admin/mk/jantri",
       },
       {
+        label: "Agents Total Bet",
+        key: "agents_total_bet",
+        href: "/admin/mk/session_entries/agents_total_bet",
+      },
+
+      {
         label: "Entries",
         key: "mk_admin_entries",
         href: "/admin/mk/session_entries",
@@ -122,6 +130,11 @@ const menuItems: any = [
         label: "Entries",
         key: "mk_agent_entries",
         href: "/agent/mk/session_entries",
+      },
+      {
+        label: "Users Total Bet",
+        key: "users_total_bet",
+        href: "/agent/mk/session_entries/users_total_bet",
       },
     ],
   },
@@ -177,21 +190,33 @@ const SiderMenu = () => {
   const router = useRouter();
   const userRole = useUserRole();
 
-  const onClick = (item: any) => {
-    const sitem = findMenuItem(menuItems, item.keyPath);
+  // const onClick = (item: any) => {
+  //   const sitem = findMenuItem(menuItems, item.keyPath);
 
-    // console.log(item)
-    // const paths = item.keyPath.reverse()
+  //   // console.log(item)
+  //   // const paths = item.keyPath.reverse()
 
-    // const sitem = menuItems.find((menuItem: any) => menuItem.key==item.keyPath.reverse()[0])
-    // console.log(sitem)
-    if (!sitem || !sitem.href) return;
-    router.push(sitem.href);
-  };
+  //   // const sitem = menuItems.find((menuItem: any) => menuItem.key==item.keyPath.reverse()[0])
+  //   // console.log(sitem)
+  //   if (!sitem || !sitem.href) return;
+  //   router.push(sitem.href);
+  // };
 
-  const menuItems_ = menuItems.filter((menuItem: any) => {
+  let menuItems1 = menuItems.filter((menuItem: any) => {
     return menuItem.roles && menuItem.roles.includes(userRole?.name as any);
   });
+
+  // convert ant menu to anchor tags so we can right click copy links
+  menuItems1.map((item: any) => {
+    if(typeof item.label !== "string") return item
+    item.label=<NextAnchor label={item.label} href={item.href}/>
+    (item.children||[]).map((item: any) => {
+      if(typeof item.label !== "string") return item
+      item.label=<NextAnchor label={item.label} href={item.href}/>
+      return item
+    })
+    return item
+  })
 
   return (
     <div className='mt-3'>
@@ -199,8 +224,8 @@ const SiderMenu = () => {
         className='sidebarMenu'
         defaultSelectedKeys={["/payment_methods"]}
         mode='inline'
-        items={menuItems_}
-        onClick={onClick}
+        items={menuItems1}
+        // onClick={onClick}
       />
     </div>
   );

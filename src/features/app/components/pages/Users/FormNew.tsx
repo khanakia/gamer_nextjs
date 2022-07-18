@@ -135,6 +135,57 @@ export default function Form1(props: FormProps) {
           </Select>
         </Form.Item>
 
+        <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.roleId !== currentValues.roleId}>
+          {({ getFieldValue }) => {
+            const roleId = getFieldValue("roleId");
+            if(roleId!==Role_Member) return null
+            return (
+              <>
+              <Form.Item label='Min Bet.' name='minBet' rules={[{ required: true, message: "Field required." }]}>
+                <InputNumber />
+              </Form.Item>
+              
+              <Form.Item label='Max Bet.' name='maxBet' rules={[{ required: true, message: "Field required." }]} >
+                <InputNumber />
+              </Form.Item>
+              
+              <Form.Item label='Rate' name='rate' rules={[{ required: true, message: "Field required." }]} extra="User will pay comm. to the admin let say 10% it means 90-10 ka bhav">
+                <InputNumber />
+              </Form.Item>
+
+              <Form.Item label='Bet Comm.' name='betComm' rules={[{ required: true, message: "Field required." }]}
+              extra="User will receive comm. on betting amount always e.g 2%">
+                <InputNumber />
+              </Form.Item>
+
+              <Form.Item label='Referral Comm.' name='refComm' rules={[{ required: true, message: "Field required." }]}
+              extra="User will referral comm. on totalBetting amount for the users he referred">
+                <InputNumber />
+              </Form.Item>
+              </>
+            )
+          }}
+        </Form.Item>
+
+        <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.roleId !== currentValues.roleId}>
+          {({ getFieldValue }) => {
+            const roleId = getFieldValue("roleId");
+            if(roleId!==Role_Agent) return null
+            return (
+              <>
+                <Form.Item label='Patti' name='patti' rules={[{ required: true, message: "Field required." }]}
+                extra="User patti with his parent. If patti is 10% then user will be responsible for 10% loss of total amount">
+                  <InputNumber />
+                </Form.Item>
+              </>
+            )
+          }}
+        </Form.Item>
+
+        <Form.Item label='Login Pin' name='loginPin' extra="User can use login pin to login if user does not receives SMS OTP">
+          <Input minLength={6} maxLength={6} />
+        </Form.Item>
+
         <Form.Item wrapperCol={{ offset: 0, span: 24 }} className='submitBtnRow'>
           <button type='button' onClick={() => submitForm()} className='me-3 btn btn-main '>
             Save

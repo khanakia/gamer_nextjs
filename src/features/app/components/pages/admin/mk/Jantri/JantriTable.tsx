@@ -1,8 +1,8 @@
 import React from "react";
 
 // items - will contain senssion entries
-export default function JantriTable(props: { items?: [] }) {
-  const { items = [] } = props;
+export default function JantriTable(props: { items?: [], fieldTotalBet?: string }) {
+  const { items = [], fieldTotalBet='totalBet' } = props;
 
   const getSessionEntry = (numTypeId: string, num: number) => {
     const entry = (items || []).find((item: any) => {
@@ -26,7 +26,7 @@ export default function JantriTable(props: { items?: [] }) {
               <div className='jantriColInnerTable'>
                 <div className='jantriColInnerTableCell'>
                   <span className='numberTitle'>{i}</span>
-                  <span className='amountTitle'>{entry?.totalBet} </span>
+                  <span className='amountTitle'>{entry[fieldTotalBet]} </span>
                 </div>
               </div>
             </div>
@@ -44,7 +44,7 @@ export default function JantriTable(props: { items?: [] }) {
               <div className='jantriColInnerTable'>
                 <div className='jantriColInnerTableCell'>
                   <span className='numberTitle'>{i}</span>
-                  <span className='amountTitle'>{entry?.totalBet} </span>
+                  <span className='amountTitle'>{entry[fieldTotalBet]} </span>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@ export default function JantriTable(props: { items?: [] }) {
               <div className='jantriColInnerTable'>
                 <div className='jantriColInnerTableCell'>
                   <span className='numberTitle'>{i}</span>
-                  <span className='amountTitle'>{entry?.totalBet} </span>
+                  <span className='amountTitle'>{entry[fieldTotalBet]} </span>
                 </div>
               </div>
             </div>

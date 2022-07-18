@@ -86,6 +86,49 @@ function GetColumns(getColumnSearchProps: any, userRole: TUserRole) {
       ...columns,
       ...[
         {
+          title: "Patti",
+          dataIndex: "patti",
+          key: "patti",
+        },
+      ],
+    ];
+  }
+
+  if (userRole.isAdmin || userRole.isAgent) {
+    columns = [
+      ...columns,
+      ...[
+        {
+          title: "Rate",
+          dataIndex: "rate",
+          key: "rate",
+        },
+
+        {
+          title: "Bet Comm.",
+          dataIndex: "betComm",
+          key: "betComm",
+        },
+
+        {
+          title: "Ref Comm.",
+          dataIndex: "refComm",
+          key: "refComm",
+        },
+
+        {
+          title: "Min Bet",
+          dataIndex: "minBet",
+          key: "minBet",
+        },
+
+        {
+          title: "Max Bet",
+          dataIndex: "maxBet",
+          key: "maxBet",
+        },
+
+        {
           title: "Parent ID",
           dataIndex: "parentId",
           key: "parentId",
@@ -154,7 +197,7 @@ export default function Users() {
         className='ktable'
         dataSource={items}
         columns={columns}
-        scroll={{ x: "1700px" }}
+        scroll={{ x: "100%" }}
         size={"small"}
         rowKey='id'
         loading={isFetching}

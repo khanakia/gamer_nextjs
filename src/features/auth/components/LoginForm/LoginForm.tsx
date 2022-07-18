@@ -5,7 +5,7 @@ import Link from "next/link";
 import gqlErrorFirstMessage from "packages/string-fns/gqlErrorFirstMessage";
 import { ErrorLabel } from "src/features/bite/components";
 import { getGqlClient, getGqlClientAsync } from "src/features/bite";
-import { login } from "src/features/auth/utils/client";
+import { useAuth } from "src/features/auth";
 import objGetPath from "packages/string-fns/objGetPath";
 import { authLoginMutation } from "./query";
 import stylelogin from "./LoginForm.module.scss";
@@ -23,6 +23,8 @@ export default function LoginForm(props: LoginFormProps) {
     formState: { errors },
   } = useForm({ defaultValues: { username: "", password: "" } });
 
+  const { login } = useAuth()
+  
   const spinner = useSpinner()
 
   const onSubmit_ = async (formData: any) => {

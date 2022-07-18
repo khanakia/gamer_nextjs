@@ -1,5 +1,30 @@
 import { gql } from "graphql-request";
 
+export const query_me = gql`
+  query {
+    me {
+      id
+      createdAt
+      phone
+      name
+      roleId
+      parentId
+      referralId
+      status
+      minBet
+      maxBet
+      rate
+      betComm
+      refComm
+      patti
+      parentName
+      parentPhone
+      referralName
+      referralPhone
+    }
+  }
+`; 
+
 export const query_p_user = gql`
   query p_user($id: String!) {
     p_user(id: $id) {
@@ -11,6 +36,13 @@ export const query_p_user = gql`
       parentId
       referralId
       status
+      minBet
+      maxBet
+      rate
+      betComm
+      refComm
+      patti
+      loginPin
     }
   }
 `; 
@@ -38,7 +70,7 @@ export const mutation_adm_createLoginToken = gql`
 `;
 
 export const mutation_agent_userCreate = gql`
-  mutation agent_userCreate($input: UserInput!) {
+  mutation agent_userCreate($input: AgentUserInput!) {
     agent_userCreate(input: $input) {
       id
     }
@@ -46,7 +78,7 @@ export const mutation_agent_userCreate = gql`
 `;
 
 export const mutation_agent_userUpdate = gql`
-  mutation agent_userUpdate($id: String!, $input: UserInput!) {
+  mutation agent_userUpdate($id: String!, $input: AgentUserInput!) {
     agent_userUpdate(id: $id, input: $input)
   }
 `;
@@ -142,6 +174,33 @@ export const mutation_p_paymentRequestProcess = gql`
   }
 `;
 
+export const query_p_paymentRequestByChild = gql`
+  query p_paymentRequestByChild($id: String!) {
+    p_paymentRequestByChild(id: $id) {
+      id
+      createdAt
+      paymentMethodId
+      userID
+      amount
+      statusId
+      note
+      toUserId
+      toUserPhone
+      paymentMethodName
+      paymentMethod {
+        id
+        name
+        status
+        accNo
+        accName
+        bankName
+        ifsc
+        accTypeId
+      }
+    }
+  }
+`
+
 export const query_p_paymentRequestsByChilds = gql`
   query p_paymentRequestsByChilds($offset: Int! = 0, $limit: Int! = 10, $orderBy: [SortOrderInput!] = [], $filters: [FilterInput!]) {
     p_paymentRequestsByChilds(offset: $offset, limit: $limit, orderBy: $orderBy, filters: $filters) {
@@ -198,12 +257,24 @@ export const query_p_ledgers = gql`
   }
 `
 
+export const query_p_ledgerBalanceByChilds = gql`
+  query p_ledgerBalanceByChilds($offset: Int! = 0, $limit: Int! = 10, $orderBy: [SortOrderInput!] = [], $filters: [FilterInput!]) {
+    p_ledgerBalanceByChilds(offset: $offset, limit: $limit, orderBy: $orderBy, filters: $filters) {
+      nodes {
+        userId
+        userPhone
+        total
+      }
+      total
+    }
+  }
+`
+
 export const query_p_legerBalance = gql`
   query {
     p_legerBalance
   }
 `
-
 
 export const query_mk_adm_channels = gql`
   query {
@@ -304,6 +375,12 @@ export const mutation_mk_adm_unDeclareSession = gql`
   }
 `;
 
+export const mutation_mk_adm_sessionArchive = gql`
+  mutation mk_adm_sessionArchive($id: String!) {
+    mk_adm_sessionArchive(id: $id)
+  }
+`;
+
 export const query_mk_p_sessionEntries = gql`
   query mk_p_sessionEntries($offset: Int! = 0, $limit: Int! = 10, $orderBy: [SortOrderInput!] = [], $filters: [FilterInput!]) {
     mk_p_sessionEntries(offset: $offset, limit: $limit, orderBy: $orderBy, filters: $filters) {
@@ -320,6 +397,11 @@ export const query_mk_p_sessionEntries = gql`
         betComm
         winAmt
         betCommAmt
+        adminAmount
+        adminRate
+        adminBetComm
+        adminWinAmt
+        adminBetCommAmt
         agentPatti
         adminPatti
         finalAmt
@@ -328,6 +410,42 @@ export const query_mk_p_sessionEntries = gql`
         sessionName
         numTypeName
         userPhone
+      }
+      total
+    }
+  }
+`
+
+export const query_mk_agent_totalBetForEachChild = gql`
+  query mk_agent_totalBetForEachChild($offset: Int! = 0, $limit: Int! = 10, $orderBy: [SortOrderInput!] = [], $filters: [FilterInput!]) {
+    mk_agent_totalBetForEachChild(offset: $offset, limit: $limit, orderBy: $orderBy, filters: $filters) {
+      nodes {
+        channelId
+        channelName
+        sessionId
+        sessionName
+        startTime
+        userId
+        userPhone
+        totalBet
+      }
+      total
+    }
+  }
+`
+
+export const query_mk_adm_totalBetForEachChild = gql`
+  query mk_adm_totalBetForEachChild($offset: Int! = 0, $limit: Int! = 10, $orderBy: [SortOrderInput!] = [], $filters: [FilterInput!]) {
+    mk_adm_totalBetForEachChild(offset: $offset, limit: $limit, orderBy: $orderBy, filters: $filters) {
+      nodes {
+        channelId
+        channelName
+        sessionId
+        sessionName
+        startTime
+        userId
+        userPhone
+        totalBet
       }
       total
     }

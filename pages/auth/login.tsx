@@ -5,11 +5,13 @@ import { useEffect } from 'react'
 import LoginFormOtp from 'src/features/auth/components/LoginFormOtp/LoginWithOtp'
 import Layout from 'src/features/app/components/layout/LayoutAuth'
 import { PublicOnlyRoute } from 'src/features/auth'
-import { login } from "src/features/auth/utils/client";
+import { useAuth } from "src/features/auth";
 import isBlank from 'packages/string-fns/isBlank';
 const Login = () => {
   const router = useRouter()
   const {token=""} = router.query
+
+  const { login } = useAuth()
 
   const handleOnLogin = () => {
     Router.push("/")

@@ -11,7 +11,7 @@ export default function PaymentMethodEdit() {
 
   return (
     <>
-      <h5>Payment Method</h5>
+      <h5>User</h5>
       <FormNew onSubmit={handleSubmit} />
     </>
   );

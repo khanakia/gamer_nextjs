@@ -15,7 +15,7 @@ const ForgotPassword = () => {
         <title>{process.env.NEXT_PUBLIC_APP_NAME} - Forgot Password</title>
       </Head>
       <div className="container1">
-        <ForgotPasswordForm onForgotPassword={handleOnForgotPassword} />
+        {/* <ForgotPasswordForm onForgotPassword={handleOnForgotPassword} /> */}
       </div>
     </Layout>
   )

@@ -1,33 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Popconfirm, message } from "antd";
+import cx from "classnames";
 import gqlErrorFirstMessage from "packages/string-fns/gqlErrorFirstMessage";
 import { useSpinner } from "src/features/bite/components";
 import { getGqlClient } from "src/features/bite";
-import { mutation_mk_adm_unDeclareSession} from "src/features/app";
+import { mutation_mk_adm_sessionArchive} from "src/features/app";
 
-type Props = {
+type FormProps = {
   id: string;
   onSubmit?: Function;
+  className?: string;
 };
 
-export default function UnDeclareSessionBtn(props: Props) {
-  const { id, onSubmit } = props;
+export default function ArchiveSessionBtn(props: FormProps) {
+  const { id, onSubmit, className="" } = props;
 
   const spinner = useSpinner();
 
   const handleSubmit = () => {
     if(!id) return
     let gqlInput = {};
-    let mutation = mutation_mk_adm_unDeclareSession;
+    let mutation = mutation_mk_adm_sessionArchive;
     gqlInput = {
-      id,
+      id: id,
     };
     spinner?.show ();
     getGqlClient()
       .request(mutation, gqlInput)
       .then((res) => {
         // console.log(res);
-        message.success("Declared successfully.");
+        message.success("Archived successfully.");
 
         if (typeof onSubmit == "function") {
           onSubmit();
@@ -47,15 +49,15 @@ export default function UnDeclareSessionBtn(props: Props) {
 
   return (
     <>
-      <Popconfirm
-        title="Are you sure?"
-        onConfirm={handleSubmit}
-        // onCancel={cancel}
-        okText="Yes"
-        cancelText="No"
-      >
-        <button className="btn btn-danger btn-sm" type={"button"}>UnDeclare Session</button>
-      </Popconfirm>
+        <Popconfirm
+          title="Are you sure?"
+          onConfirm={handleSubmit}
+          // onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <button className={cx("btn btn-danger btn-sm", className)} type="button">Archive Session</button>
+        </Popconfirm>
     </>
   );
 }
