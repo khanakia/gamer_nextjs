@@ -17,10 +17,10 @@ export function getToken(): string | undefined {
 	return Cookies.get(getTokenName());
 }
 
-// export function login(token = null) {
-// 	if (!token) return 'Cannot Login';
-// 	Cookies.set(getTokenName(), token);
-// }
+export function login(token = null) {
+	if (!token) return 'Cannot Login';
+	Cookies.set(getTokenName(), token);
+}
 
 export function getTokenDecoded(): any {
 	var token = getToken();

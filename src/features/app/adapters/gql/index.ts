@@ -1,3 +1,3 @@
-// export * as resolver from './resolver';
-// export * as schema from './resolver';
+export * as resolver from './resolver';
+export * as schema from './resolver';
 

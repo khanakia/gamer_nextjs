@@ -12,7 +12,7 @@ export const MenuItems = [
 
 
 // Sometimes data needs some function to populat the values
-export const MenuItemsAsFunc = ({getRoute}) => {
+export const MenuItemsAsFunc = ({getRoute}: any) => {
   [
     {
       "name": "Home",
